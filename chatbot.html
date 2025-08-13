@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Eco Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES (from Greenify CSS) ===== */
+        :root {
+            --primary: #1a6f5c;
+            --primary-dark: #145a48;
+            --primary-light: #2d8a72;
+            --accent: #f39c12;
+            --accent-dark: #d35400;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --corner-radius: 16px;
+            --section-padding: 100px;
+            --card-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1.05rem;
+            text-align: center;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--light);
+            box-shadow: var(--shadow);
+            font-weight: 700;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline:hover {
+            background: rgba(26, 111, 92, 0.1);
+        }
+
+        /* ================== HEADER ================== */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 0.8rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1001;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+        }
+
+        .logo-img i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        /* Navigation Styles */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            position: relative;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            background: transparent;
+            border: 2px solid transparent;
+            font-size: 1.05rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(26, 111, 92, 0.08);
+            border-color: rgba(26, 111, 92, 0.2);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        /* Mobile Menu Button - for 3 lines */
+        .mobile-menu-btn {
+            display: none; /* Hidden by default, only shown on smaller screens */
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px; /* Adjusted for 3 bars */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1002; /* Ensure it's above the nav menu */
+            position: relative; /* For bar positioning */
+        }
+
+        .mobile-menu-btn .bar {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary); /* Or var(--dark) if you prefer */
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Transform to 'X' when active */
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(2) {
+            opacity: 0; /* Hide the middle bar */
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Chatbot Specific Styles */
+        .chatbot-section {
+            padding: 80px 0 60px; /* Adjust top padding for header, more padding at bottom */
+            min-height: calc(100vh - 80px); /* Fill remaining height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(180deg, var(--light) 0%, #E8F5E9 100%);
+            overflow: hidden;
+        }
+
+        /* Dynamic background element */
+        .chatbot-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%),
+                        radial-gradient(circle at 50% 50%, rgba(45, 138, 114, 0.03) 0%, transparent 30%);
+            background-size: 50% 50%, 50% 50%, 100% 100%;
+            background-position: 0% 0%, 100% 100%, 0% 0%;
+            animation: backgroundPan 60s linear infinite; /* Slow, subtle animation */
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%, 100% 100%, 0% 0%; }
+            25% { background-position: 5% 10%, 95% 90%, 0% 0%; }
+            50% { background-position: 10% 20%, 90% 80%, 0% 0%; }
+            75% { background-position: 5% 10%, 95% 90%, 0% 0%; }
+            100% { background-position: 0% 0%, 100% 100%, 0% 0%; }
+        }
+
+
+        .chatbot-container {
+            background-color: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 700px;
+            height: 80vh; /* Set a fixed height for the chat window */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Hide overflow for chat messages */
+            position: relative;
+            border: 1px solid var(--light-gray);
+        }
+
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            border-top-left-radius: var(--corner-radius);
+            border-top-right-radius: var(--corner-radius);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            justify-content: space-between; /* Space out header elements */
+        }
+
+        .chat-header i {
+            font-size: 1.5rem;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* "Alive" indicator */
+        .online-status {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto; /* Enable scrolling for messages */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--light);
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            display: flex;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+            margin-right: auto;
+        }
+
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 100%;
+        }
+
+        .message.user .message-bubble {
+            background-color: var(--primary-light);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot .message-bubble {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input {
+            border-top: 1px solid var(--light-gray);
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            background-color: white;
+            align-items: center; /* Align items vertically */
+            position: relative; /* For voice recorder positioning */
+        }
+
+        .chat-input input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 15px;
+            padding-right: 60px; /* Space for voice icon */
+            border: 1px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        .chat-input input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        .chat-input button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Suggestions/Quick Actions */
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 20px;
+            border-top: 1px solid var(--light-gray);
+            background-color: white;
+            justify-content: center;
+        }
+
+        .chat-suggestions button {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+
+        .chat-suggestions button:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* New Features */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+            margin-right: auto; /* for bot */
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: var(--gray);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .info-box {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid var(--accent);
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .bot-response-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .bot-response-list li {
+            margin-bottom: 8px;
+        }
+
+        .chat-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-controls button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: rgba(26, 111, 92, 0.1);
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            border-bottom: 1px solid rgba(26, 111, 92, 0.2);
+            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Voice controls - Integrated into chat input */
+        .voice-recorder-btn {
+            background-color: transparent; /* Make it blend with input */
+            color: var(--gray);
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: absolute; /* Position inside input area */
+            right: 70px; /* Adjust based on send button size */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: none;
+            z-index: 10; /* Ensure it's above input */
+        }
+
+        .voice-recorder-btn:hover {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: none;
+        }
+
+        .voice-recorder-btn.recording {
+            color: var(--danger);
+            animation: pulse-record 1.5s infinite;
+        }
+        @keyframes pulse-record {
+            0% { transform: translateY(-50%) scale(0.95); opacity: 1; }
+            70% { transform: translateY(-50%) scale(1.1); opacity: 0.7; }
+            100% { transform: translateY(-50%) scale(0.95); opacity: 1; }
+        }
+
+        /* Clear chat button at the bottom - REPOSITIONED */
+        .bottom-controls {
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            gap: 10px; /* Space for settings button */
+        }
+
+        .bottom-controls button {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bottom-controls button:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Settings Button & Menu */
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .settings-menu {
+            position: absolute;
+            bottom: 60px; /* Above the bottom controls */
+            right: 20px;
+            background: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow-hover);
+            padding: 10px 0;
+            width: 250px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+
+        .settings-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .settings-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .settings-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background-color 0.3s;
+        }
+
+        .settings-menu li a:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+
+        .settings-menu li a i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .settings-menu .separator {
+            border-top: 1px solid var(--light-gray);
+            margin: 5px 0;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .nav-link span {
+                display: none;
+            }
+            .nav-link i {
+                font-size: 1.2rem;
+                margin-right: 0;
+            }
+            .nav-link {
+                padding: 0.8rem;
+                width: 45px;
+                height: 45px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: flex; /* Changed from 'block' to 'flex' to make bars align */
+            }
+
+            .nav-container {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 280px;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
+                transition: var(--transition);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                padding: 80px 1rem 2rem;
+                gap: 0.5rem;
+            }
+
+            .nav-container.active {
+                right: 0;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 1rem;
+                border-radius: var(--corner-radius);
+                justify-content: flex-start;
+            }
+
+            .nav-link span {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-container {
+                height: 80vh; /* Make chat window taller on smaller screens */
+                max-width: 95%;
+            }
+
+            .chat-messages {
+                padding: 15px;
+            }
+
+            .message-bubble {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .chat-input {
+                padding: 10px 15px;
+                flex-direction: row; /* Keep input and buttons in a row */
+                gap: 10px;
+            }
+            .chat-input input[type="text"] {
+                width: auto; /* Adjust width automatically */
+                padding: 10px;
+                padding-right: 50px; /* Space for voice icon */
+            }
+            .chat-input button {
+                width: 40px;
+                height: 40px;
+                padding: 0; /* Reset padding for circular buttons */
+                border-radius: 50%; /* Keep circular */
+            }
+            .voice-recorder-btn {
+                right: 60px;
+            }
+            .chat-suggestions {
+                padding: 10px 15px;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 5px;
+                align-items: center;
+            }
+
+            .chat-header-right {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 5px;
+            }
+            .chat-header-right button {
+                padding: 4px 8px;
+            }
+
+            .bottom-controls {
+                justify-content: center; /* Center clear button on small screens */
+            }
+            .settings-menu {
+                bottom: 50px;
+                right: 10px;
+                width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <div class="logo-img">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="logo-text">Green<span>ify</span></div>
+        </div>
+
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-container" id="navMenu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="carbon.html" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Carbon</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="education.html" class="nav-link">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Education</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="mobility.html" class="nav-link">
+                        <i class="fas fa-bicycle"></i>
+                        <span>Mobility</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="features.html" class="nav-link">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="chatbot.html" class="nav-link">
+                        <i class="fas fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="chatbot-section container">
+            <div class="chatbot-container">
+                <div class="chat-header">
+                    <div class="chat-header-left">
+                        <i class="fas fa-robot"></i> Greenify AI Assistant
+                        <span class="online-status">
+                            <span class="online-dot"></span> Online
+                        </span>
+                    </div>
+                    <div class="chat-header-right">
+                        <button id="new-chat-btn" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.4);">
+                            <i class="fas fa-plus-circle"></i> New Chat
+                        </button>
+                        <button id="settings-btn" class="settings-btn">
+                            <i class="fas fa-cog"></i> Settings
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <i class="fas fa-leaf"></i>
+                        <span id="eco-points">0</span> Eco Points
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-recycle"></i>
+                        <span id="eco-tips">0</span> Tips Learned
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-cloud"></i>
+                        <span id="carbon-saved">0</span> kg CO2 Saved
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot">
+                        <div class="message-bubble">
+                            <strong>Hello! I'm your Greenify AI Assistant.</strong> 🌱
+                            <p>How can I help you live greener today? You can ask me about sustainability tips, carbon reduction strategies, recycling info, or our Greenify features!</p>
+                            <div class="info-box">
+                                <i class="fas fa-lightbulb"></i> Try asking: "How can I reduce my plastic waste?" or "What are some energy-saving tips?"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-suggestions" id="chat-suggestions">
+                    <button data-query="What are Greenify's key features?">Our Features</button>
+                    <button data-query="Give me a sustainability tip">Eco-Tip</button>
+                    <button data-query="How can I reduce my carbon footprint?">Carbon Reduction</button>
+                    <button data-query="Tell me about recycling electronics">E-Waste Recycling</button>
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Ask about sustainability..." autocomplete="off">
+                    <button id="voice-recorder-btn" class="voice-recorder-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+
+                <div id="settings-menu" class="settings-menu">
+                    <ul>
+                        <li><a href="#" id="toggle-voice-output"><i class="fas fa-volume-up"></i> Toggle Voice Output</a></li>
+                        <li><a href="#" id="reset-stats"><i class="fas fa-chart-line"></i> Reset Stats</a></li>
+                        <li class="separator"></li>
+                        <li><a href="ChatBoardSettings.html" id="chat-settings-link"><i class="fas fa-sliders-h"></i> Chat Board Settings</a></li>
+                    </ul>
+                </div>
+
+                <div class="bottom-controls">
+                    <button id="clear-chat">
+                        <i class="fas fa-trash-alt"></i> Clear Chat
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', function() {
+            menuBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        const navLinks = document.querySelectorAll('#navMenu .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'var(--shadow)';
+            }
+        });
+
+        // --- Enhanced Chatbot Functionality ---
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatSuggestions = document.getElementById('chat-suggestions');
+        const clearChatBtn = document.getElementById('clear-chat');
+        const newChatBtn = document.getElementById('new-chat-btn');
+        const ecoPointsSpan = document.getElementById('eco-points');
+        const ecoinTipsSpan = document.getElementById('eco-tips');
+        const carbonSavedSpan = document.getElementById('carbon-saved');
+        const voiceRecorderBtn = document.getElementById('voice-recorder-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsMenu = document.getElementById('settings-menu');
+        const toggleVoiceOutputBtn = document.getElementById('toggle-voice-output');
+        const resetStatsBtn = document.getElementById('reset-stats');
+        const chatSettingsLink = document.getElementById('chat-settings-link');
+
+        // User stats
+        let ecoPoints = 0;
+        let ecoTipsLearned = 0;
+        let carbonSaved = 0;
+        let isRecording = false; // Track recording state
+        let recognition;
+        let voiceOutputEnabled = true; // State for voice output
+
+        // Initialize Speech Synthesis
+        const synth = window.speechSynthesis;
+
+        // Initialize Speech Recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false; // Only get one result per recognition session
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                voiceRecorderBtn.classList.add('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-stop"></i>';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+                sendMessage();
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+                alert('Speech recognition error: ' + event.error);
+                isRecording = false;
+                voiceRecorderBtn.classList.remove('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                voiceRecorderBtn.classList.remove('recording');
+                voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+        } else {
+            voiceRecorderBtn.disabled = true;
+            voiceRecorderBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+            voiceRecorderBtn.title = 'Voice recognition not supported by your browser';
+        }
+
+        // Toggle voice recognition on click
+        voiceRecorderBtn.addEventListener('click', function() {
+            if (!recognition) return;
+
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error('Speech recognition start error:', e);
+                    alert('Could not start speech recognition. Please ensure your microphone is available and permissions are granted.');
+                }
+            }
+        });
+
+        // Speak text using speech synthesis
+        function speakText(text) {
+            if (!synth || !voiceOutputEnabled) return;
+
+            // Clean text by removing HTML tags
+            const cleanText = text.replace(/<[^>]*>/g, '');
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            synth.speak(utterance);
+        }
+
+        // Load conversation from localStorage
+        function loadConversation() {
+            const savedMessages = localStorage.getItem('greenifyChat');
+            if (savedMessages) {
+                chatMessages.innerHTML = savedMessages;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                 // If no saved messages, add initial bot message
+                 addMessage(`
+                    <strong>Hello! I'm your Greenify AI Assistant.</strong> 🌱
+                    <p>How can I help you live greener today? You can ask me about sustainability tips, carbon reduction strategies, recycling info, or our Greenify features!</p>
+                    <div class="info-box">
+                        <i class="fas fa-lightbulb"></i> Try asking: "How can I reduce my plastic waste?" or "What are some energy-saving tips?"
+                    </div>
+                `, 'bot', false); // Do not speak initial message on load
+            }
+
+            // Load stats
+            const savedStats = localStorage.getItem('greenifyStats');
+            if (savedStats) {
+                const stats = JSON.parse(savedStats);
+                ecoPoints = stats.ecoPoints || 0;
+                ecoTipsLearned = stats.ecoTipsLearned || 0;
+                carbonSaved = stats.carbonSaved || 0;
+                voiceOutputEnabled = stats.voiceOutputEnabled !== undefined ? stats.voiceOutputEnabled : true; // Load voice setting
+                updateStatsDisplay();
+                updateVoiceToggleIcon();
+            }
+        }
+
+        // Save conversation and settings to localStorage
+        function saveConversation() {
+            localStorage.setItem('greenifyChat', chatMessages.innerHTML);
+
+            // Save stats and settings
+            const stats = {
+                ecoPoints,
+                ecoTipsLearned,
+                carbonSaved,
+                voiceOutputEnabled
+            };
+            localStorage.setItem('greenifyStats', JSON.stringify(stats));
+        }
+
+        // Update stats display
+        function updateStatsDisplay() {
+            ecoPointsSpan.textContent = ecoPoints;
+            ecoinTipsSpan.textContent = ecoTipsLearned;
+            carbonSavedSpan.textContent = carbonSaved;
+        }
+
+        // Add message to chat
+        function addMessage(text, sender, speak = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+            messageBubble.innerHTML = text;
+
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Save conversation
+            saveConversation();
+
+            // Speak the message if it's from the bot and speaking is enabled
+            if (sender === 'bot' && speak) {
+                speakText(text);
+            }
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'bot');
+
+            const typingBubble = document.createElement('div');
+            typingBubble.classList.add('typing-indicator');
+            typingBubble.innerHTML = '<span></span><span></span><span></span>';
+
+            typingDiv.appendChild(typingBubble);
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            return typingDiv;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator(indicator) {
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // Enhanced bot response system
+        function getBotResponse(message) {
+            message = message.toLowerCase().trim();
+            let response = "I'm here to help you live sustainably! You can ask me about eco-tips, recycling, carbon footprint reduction, or Greenify features. What would you like to know?";
+
+            // Award points for interaction
+            ecoPoints += 2;
+
+            // --- Greenify Features & Navigation ---
+            if (message.includes("what is greenify") || message.includes("tell me about greenify")) {
+                ecoTipsLearned += 1;
+                response = `
+                    **Greenify** is your ultimate companion for sustainable living! We provide tools and knowledge to help you reduce your environmental impact.
+                    Our key features include:
+                    <ul class="bot-response-list">
+                        <li><i class="fas fa-calculator"></i> **Carbon Footprint Calculator:** Measure and understand your personal carbon emissions.</li>
+                        <li><i class="fas fa-graduation-cap"></i> **Education Hub:** Access articles, guides, and tips on all things sustainability.</li>
+                        <li><i class="fas fa-cloud-sun"></i> **Forecast:** Stay informed about environmental conditions and air quality.</li>
+                        <li><i class="fas fa-bicycle"></i> **Green Mobility Planner:** Find eco-friendly transportation options to reduce your travel footprint.</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-sparkles"></i> Let's work together for a greener future!
+                    </div>
+                `;
+                ecoPoints += 5; // Extra points for asking about Greenify itself
+            }
+            else if (message.includes("carbon footprint calculator") || message.includes("go to carbon footprint calculator") || message.includes("show me carbon footprint calculator")) {
+                ecoPoints += 100; // Reward for using exclusive feature
+                updateStatsDisplay();
+                response = `
+                    Great choice! The **Carbon Footprint Calculator** helps you understand and reduce your environmental impact.
+                    <div class="info-box">
+                        <i class="fas fa-calculator"></i> Navigating you to the Carbon Footprint Calculator. You've earned +100 Eco Points!
+                    </div>
+                `;
+                setTimeout(() => { window.location.href = 'carbon.html'; }, 1500); // Redirect after a short delay
+            }
+            else if (message.includes("education hub") || message.includes("go to education hub") || message.includes("show me education hub")) {
+                ecoPoints += 100; // Reward for using exclusive feature
+                updateStatsDisplay();
+                response = `
+                    Fantastic! The **Education Hub** is packed with guides, courses, and articles to expand your knowledge.
+                    <div class="info-box">
+                        <i class="fas fa-graduation-cap"></i> Navigating you to the Education Hub. You've earned +100 Eco Points!
+                    </div>
+                `;
+                setTimeout(() => { window.location.href = 'education.html'; }, 1500); // Redirect
+            }
+            else if (message.includes("forecast") || message.includes("environmental forecast") || message.includes("go to forecast") || message.includes("show me forecast")) {
+                ecoPoints += 100; // Reward for using exclusive feature
+                updateStatsDisplay();
+                response = `
+                    Absolutely! Our **Forecast** feature provides you with important environmental data, including weather and air quality.
+                    <div class="info-box">
+                        <i class="fas fa-cloud-sun"></i> Navigating you to the Forecast page. You've earned +100 Eco Points!
+                    </div>
+                `;
+                setTimeout(() => { window.location.href = 'weather.html'; }, 1500); // Assuming 'weather.html' is for forecast
+            }
+            else if (message.includes("green mobility planner") || message.includes("go to green mobility planner") || message.includes("show me green mobility planner")) {
+                ecoPoints += 100; // Reward for using exclusive feature
+                updateStatsDisplay();
+                response = `
+                    Excellent! The **Green Mobility Planner** can help you find eco-friendly transportation options.
+                    <div class="info-box">
+                        <i class="fas fa-bicycle"></i> Navigating you to the Green Mobility Planner. You've earned +100 Eco Points!
+                    </div>
+                `;
+                setTimeout(() => { window.location.href = 'mobility.html'; }, 1500); // Redirect
+            }
+            // --- General Chatbot Responses ---
+            else if (message.includes("hello") || message.includes("hi") || message.includes("hey")) {
+                response = "Hello! 🌱 Ready to make a positive environmental impact today? How can I assist you?";
+            }
+            else if (message.includes("feature") || message.includes("what can you do") || message.includes("greenify's key features")) {
+                ecoTipsLearned += 1;
+                response = `
+                    <strong>Greenify offers these key features:</strong>
+                    <ul class="bot-response-list">
+                        <li><i class="fas fa-calculator"></i> <strong>Carbon Footprint Calculator:</strong> Understand your environmental impact.</li>
+                        <li><i class="fas fa-graduation-cap"></i> <strong>Education Hub:</strong> Learn more about sustainability.</li>
+                        <li><i class="fas fa-cloud-sun"></i> <strong>Forecast:</strong> Get environmental conditions and air quality.</li>
+                        <li><i class="fas fa-bicycle"></i> <strong>Green Mobility Planner:</strong> Find sustainable ways to travel.</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-star"></i> You've earned +3 Eco Points for learning about our features!
+                    </div>
+                `;
+                ecoPoints += 3;
+            }
+            else if (message.includes("tip") || message.includes("advice")) {
+                ecoTipsLearned += 1;
+                const tips = [
+                    "Switch to a reusable water bottle - Americans use 50 billion plastic bottles annually!",
+                    "Unplug devices when not in use - standby power can account for 10% of home energy use.",
+                    "Meatless Mondays - reducing meat consumption lowers your carbon footprint significantly.",
+                    "Line-dry clothes - dryers account for 6% of residential electricity use in the US.",
+                    "Install a smart thermostat - can save up to 10% annually on heating and cooling.",
+                    "Use public transport - one bus can replace 30 cars, reducing traffic and emissions.",
+                    "Fix leaky faucets - a single drip per second wastes 3,000 gallons of water annually."
+                ];
+                const tip = tips[Math.floor(Math.random() * tips.length)];
+                response = `
+                    <strong>Eco-Tip of the Day:</strong> ${tip}
+                    <div class="info-box">
+                        <i class="fas fa-seedling"></i> You've earned +2 Eco Points for learning a new sustainability tip!
+                    </div>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("recycle") || message.includes("waste")) {
+                ecoTipsLearned += 1;
+                if (message.includes("plastic")) {
+                    response = `
+                        <strong>Recycling Plastic:</strong>
+                        <ul class="bot-response-list">
+                            <li>Check the resin code (1-7) usually found on the bottom</li>
+                            <li>Most programs accept #1 (PET) and #2 (HDPE)</li>
+                            <li>Clean containers thoroughly - food residue can contaminate entire batches</li>
+                            <li>Plastic bags and films shouldn't go in curbside bins - take to store drop-offs</li>
+                            <li>Only 9% of plastic ever produced has been recycled - reducing use is best</li>
+                        </ul>
+                    `;
+                } else if (message.includes("electronic") || message.includes("e-waste")) {
+                    response = `
+                        <strong>E-Waste Recycling:</strong>
+                        <ul class="bot-response-list">
+                            <li>Never throw electronics in regular trash - they contain toxic materials</li>
+                            <li>Find certified e-waste recyclers through EPA's website</li>
+                            <li>Many manufacturers (Apple, Dell) have take-back programs</li>
+                            <li>Best Buy and Staples accept electronics for recycling</li>
+                            <li>Remove batteries from devices before recycling</li>
+                            <li>Wipe all personal data from devices first</li>
+                        </ul>
+                        <div class="info-box">
+                            <i class="fas fa-mobile-alt"></i> Recycling 1 million laptops saves energy equivalent to powering 3,500 homes annually!
+                        </div>
+                    `;
+                } else {
+                    response = `
+                        <strong>General Recycling Guidelines:</strong>
+                        <ul class="bot-response-list">
+                            <li>Know your local rules - recycling varies by community</li>
+                            <li>When in doubt, throw it out - wishcycling contaminates batches</li>
+                            <li>Rinse containers - food residue makes materials unrecyclable</li>
+                            <li>Keep plastic bags out of curbside bins - they jam machinery</li>
+                            <li>Flatten cardboard boxes to save space in collection trucks</li>
+                        </ul>
+                    `;
+                }
+                ecoPoints += 2;
+            }
+            else if (message.includes("carbon") || message.includes("footprint")) {
+                ecoTipsLearned += 1;
+                response = `
+                    <strong>Reducing Your Carbon Footprint:</strong>
+                    <ul class="bot-response-list">
+                        <li><i class="fas fa-car"></i> Transportation (28% of US emissions): Drive less, use public transport, carpool, or switch to an EV</li>
+                        <li><i class="fas fa-home"></i> Home Energy (20%): Upgrade insulation, install efficient appliances, switch to LED bulbs</li>
+                        <li><i class="fas fa-utensils"></i> Food Choices (10%): Reduce meat consumption, buy local produce, minimize food waste</li>
+                        <li><i class="fas fa-shopping-cart"></i> Consumption: Buy less, choose sustainable products, repair instead of replace</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-tree"></i> The average American carbon footprint is 16 tons - 4x the global average! Our goal is under 2 tons.
+                    </div>
+                `;
+                carbonSaved += 5; // Symbolic value for learning about reduction
+                ecoPoints += 4;
+            }
+            else if (message.includes("water") || message.includes("conservation")) {
+                response = `
+                    <strong>Water Conservation Tips:</strong>
+                    <ul class="bot-response-list">
+                        <li>Install low-flow showerheads and faucet aerators</li>
+                        <li>Fix leaks promptly - a dripping faucet can waste 3,000 gallons/year</li>
+                        <li>Water plants in early morning to reduce evaporation</li>
+                        <li>Collect rainwater for gardening</li>
+                        <li>Only run full loads in dishwashers and washing machines</li>
+                        <li>Take 5-minute showers instead of baths</li>
+                    </ul>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("energy") || message.includes("electricity")) {
+                response = `
+                    <strong>Energy Saving Strategies:</strong>
+                    <ul class="bot-response-list">
+                        <li>Set thermostat to 68°F in winter, 78°F in summer</li>
+                        <li>Seal air leaks around windows and doors</li>
+                        <li>Use smart power strips to eliminate phantom loads</li>
+                        <li>Switch to ENERGY STAR certified appliances</li>
+                        <li>Consider solar panels - prices have dropped 70% in the last decade</li>
+                        <li>Wash clothes in cold water - 90% of energy goes to heating water</li>
+                    </ul>
+                    <div class="info-box">
+                        <i class="fas fa-bolt"></i> The average US household spends $1,400 annually on energy bills - efficiency upgrades can save 25%!
+                    </div>
+                `;
+                ecoPoints += 2;
+            }
+            else if (message.includes("thank") || message.includes("thanks")) {
+                response = "You're welcome! Every sustainable choice makes a difference. What else can I help you with today?";
+            }
+            else {
+                // Simulate understanding complex queries
+                if (message.includes("plastic alternative")) {
+                    response = "Great question! Consider these plastic alternatives: glass containers, stainless steel bottles, beeswax wraps, bamboo utensils, silicone storage bags, and compostable packaging. Each option has different best-use cases.";
+                }
+                else if (message.includes("sustainable fashion")) {
+                    response = "Sustainable fashion focuses on ethical production and eco-friendly materials. Tips: buy less, choose natural fibers (organic cotton, linen, hemp), support ethical brands, shop secondhand, and care for clothes to extend their life.";
+                }
+            }
+
+            updateStatsDisplay();
+            return response;
+        }
+
+        function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === "") return;
+
+            addMessage(messageText, 'user');
+            userInput.value = '';
+            userInput.focus();
+
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+
+            setTimeout(() => {
+                hideTypingIndicator(typingIndicator);
+                const botResponse = getBotResponse(messageText);
+                addMessage(botResponse, 'bot');
+            }, 1200); // Simulate typing delay
+        }
+
+        // Clear chat functionality
+        clearChatBtn.addEventListener('click', function() {
+            chatMessages.innerHTML = '';
+            addMessage(`
+                <strong>Chat cleared!</strong> I'm ready for new questions about sustainability.
+                <div class="info-box">
+                    <i class="fas fa-recycle"></i> Remember: Your stats and previous conversations are still saved.
+                </div>
+            `, 'bot');
+            // Stats are NOT reset here, as per prompt implying they persist
+        });
+
+        // New chat functionality
+        newChatBtn.addEventListener('click', function() {
+            chatMessages.innerHTML = '';
+            addMessage(`
+                <strong>New conversation started!</strong> 🌍
+                <p>How can I help you with your sustainability journey today?</p>
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i> Try asking about recycling, energy conservation, or eco-friendly products.
+                </div>
+            `, 'bot');
+             // Reset stats for a truly "new" chat, if this is the desired behavior
+            ecoPoints = 0;
+            ecoTipsLearned = 0;
+            carbonSaved = 0;
+            updateStatsDisplay();
+        });
+
+        // Toggle Settings Menu
+        settingsBtn.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent click from immediately closing it
+            settingsMenu.classList.toggle('active');
+        });
+
+        // Close settings menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!settingsMenu.contains(event.target) && !settingsBtn.contains(event.target)) {
+                settingsMenu.classList.remove('active');
+            }
+        });
+
+        // Toggle Voice Output
+        function updateVoiceToggleIcon() {
+            toggleVoiceOutputBtn.innerHTML = voiceOutputEnabled ? '<i class="fas fa-volume-up"></i> Disable Voice Output' : '<i class="fas fa-volume-mute"></i> Enable Voice Output';
+            toggleVoiceOutputBtn.style.color = voiceOutputEnabled ? 'var(--primary)' : 'var(--dark)';
+            toggleVoiceOutputBtn.querySelector('i').style.color = voiceOutputEnabled ? 'var(--primary)' : 'var(--dark)';
+        }
+
+        toggleVoiceOutputBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            voiceOutputEnabled = !voiceOutputEnabled;
+            updateVoiceToggleIcon();
+            saveConversation(); // Save the new setting
+            alert(`Voice output is now ${voiceOutputEnabled ? 'enabled' : 'disabled'}.`);
+            settingsMenu.classList.remove('active');
+        });
+
+        // Reset Stats
+        resetStatsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to reset all your Eco Points, Tips Learned, and CO2 Saved stats? This cannot be undone.')) {
+                ecoPoints = 0;
+                ecoTipsLearned = 0;
+                carbonSaved = 0;
+                updateStatsDisplay();
+                saveConversation(); // Save the reset stats
+                alert('Your stats have been reset!');
+                settingsMenu.classList.remove('active');
+            }
+        });
+
+        // Chat Board Settings Link - Now directly links to ChatBoardSettings.html
+        chatSettingsLink.addEventListener('click', function(e) {
+            // No e.preventDefault() needed here, as it's a direct link
+            settingsMenu.classList.remove('active');
+            // The browser will handle the navigation because it's a standard anchor tag
+        });
+
+
+        // Initialize chatbot
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        chatSuggestions.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                const query = e.target.dataset.query;
+                addMessage(query, 'user');
+                userInput.value = '';
+
+                const typingIndicator = showTypingIndicator();
+
+                setTimeout(() => {
+                    hideTypingIndicator(typingIndicator);
+                    const botResponse = getBotResponse(query);
+                    addMessage(botResponse, 'bot');
+                }, 1200);
+            }
+        });
+
+        // Load conversation on startup
+        window.addEventListener('DOMContentLoaded', loadConversation);
+    </script>
+</body>
+</html>

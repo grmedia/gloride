@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --primary: #1a6f5c;
+            --primary-dark: #145a48;
+            --primary-light: #2d8a72;
+            --accent: #f39c12;
+            --accent-dark: #d35400;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --corner-radius: 16px;
+            --section-padding: 100px;
+            --card-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-size: 16px; /* Base font size for body */
+        }
+
+        main {
+            flex-grow: 1;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 36px; /* Slightly larger padding */
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1.1rem; /* Slightly larger font size */
+            text-align: center;
+            text-decoration: none;
+            gap: 10px; /* Slightly larger gap */
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--light);
+            box-shadow: var(--shadow);
+            font-weight: 700;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline:hover {
+            background: rgba(26, 111, 92, 0.1);
+        }
+
+        /* ================== HEADER ================== */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 0.8rem 5%; /* Adjusted padding for consistent height */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1001; /* Ensure logo is above mobile menu */
+        }
+
+        .logo-img {
+            width: 45px; /* Consistent with other pages */
+            height: 45px; /* Consistent with other pages */
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+        }
+
+        .logo-img i {
+            font-size: 1.5rem; /* Consistent with other pages */
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.8rem; /* Consistent with other pages */
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        /* Navigation Styles - Replicated from previous pages */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container { /* Applied to ul */
+            display: flex;
+            gap: 0.5rem; /* Reduced gap for more items */
+            list-style: none;
+        }
+
+        .nav-item { /* Applied to li */
+            position: relative;
+            list-style: none;
+        }
+
+        .nav-link { /* Applied to a */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px; /* Pill shape */
+            transition: var(--transition);
+            background: transparent;
+            border: 2px solid transparent;
+            font-size: 1.05rem; /* Consistent font size */
+        }
+
+        .nav-link:hover {
+            background: rgba(26, 111, 92, 0.08);
+            border-color: rgba(26, 111, 92, 0.2);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 1002;
+            width: 40px; /* Consistent size */
+            height: 40px; /* Consistent size */
+        }
+
+        .mobile-menu-btn .bar {
+            display: block;
+            width: 25px; /* Consistent size */
+            height: 3px;
+            background-color: var(--dark);
+            margin: 5px auto;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* --- Settings Page Specific Styles --- */
+        .settings-hero {
+            text-align: center;
+            padding: 120px 20px 70px; /* Increased padding */
+            background: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)),
+                        url('https://images.unsplash.com/photo-1542838685-1d457639f7a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .settings-hero h1 {
+            font-size: 3.5rem; /* Larger */
+            margin-bottom: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        .settings-hero p {
+            font-size: 1.3rem; /* Larger */
+            color: var(--gray);
+            max-width: 750px; /* Slightly wider */
+            margin: 0 auto;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); /* Adjusted for better layout and size */
+            gap: 50px; /* Larger gap */
+            padding-bottom: var(--section-padding);
+        }
+
+        .settings-section {
+            background-color: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow);
+            padding: 40px; /* Increased padding */
+            border-left: 6px solid var(--primary); /* Thicker border */
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .settings-section:hover {
+            box-shadow: var(--shadow-hover);
+            border-left-color: var(--accent);
+        }
+
+        .settings-section h2 {
+            font-size: 2.2rem; /* Larger */
+            color: var(--primary-dark);
+            margin-bottom: 30px; /* Increased margin */
+            padding-bottom: 15px; /* Increased padding */
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Larger gap */
+        }
+
+        .settings-section h2 i {
+            color: var(--primary);
+            font-size: 2rem; /* Larger */
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0; /* Increased padding */
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 1.1rem; /* Larger font size */
+            color: var(--dark);
+            gap: 25px; /* Larger gap */
+            flex-wrap: wrap;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item label {
+            flex: 1;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Larger gap */
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        .setting-item label i {
+            color: var(--gray);
+            font-size: 1.25rem; /* Larger */
+        }
+
+        .setting-controls {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 18px; /* Larger gap */
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 55px; /* Slightly larger */
+            height: 32px; /* Slightly larger */
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: var(--transition);
+            border-radius: 32px; /* Adjusted radius */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px; /* Slightly larger */
+            width: 24px; /* Slightly larger */
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(23px); /* Adjusted for new size */
+        }
+
+        /* Select Dropdowns */
+        .setting-controls select {
+            padding: 10px 14px; /* Increased padding */
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            background-color: white;
+            font-size: 1rem; /* Larger font size */
+            color: var(--dark);
+            transition: border-color var(--transition);
+            min-width: 200px; /* Adjusted for better fit */
+        }
+
+        .setting-controls select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Input fields */
+        .setting-controls input[type="text"],
+        .setting-controls input[type="number"],
+        .setting-controls input[type="email"],
+        .setting-controls input[type="password"] {
+            padding: 10px 14px; /* Increased padding */
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            font-size: 1rem; /* Larger font size */
+            color: var(--dark);
+            min-width: 250px; /* Default for better visibility */
+            transition: border-color var(--transition);
+        }
+
+        /* Specific adjustment for "Account & Profile" inputs to align better with labels */
+        .settings-section:first-of-type .setting-item input[type="text"],
+        .settings-section:first-of-type .setting-item input[type="email"] {
+            flex-grow: 1; /* Allow inputs to take available space */
+            max-width: 300px; /* Set a max-width to keep them from getting too wide */
+        }
+
+        .setting-controls input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Action Buttons */
+        .btn-small {
+            padding: 10px 18px; /* Increased padding */
+            font-size: 1rem; /* Larger font size */
+            border-radius: 25px;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Profile section */
+        .profile-picture-upload {
+            display: flex;
+            align-items: center;
+            gap: 25px; /* Larger gap */
+            margin-bottom: 25px; /* Increased margin */
+        }
+
+        .profile-picture {
+            width: 90px; /* Larger */
+            height: 90px; /* Larger */
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-picture i {
+            font-size: 3rem; /* Larger */
+            color: var(--gray);
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Information sections */
+        .info-content {
+            margin-top: 20px; /* Increased margin */
+            color: var(--dark);
+            line-height: 1.8; /* Increased line height */
+            font-size: 1.05rem; /* Slightly larger */
+        }
+        .info-content p {
+            margin-bottom: 18px; /* Increased margin */
+        }
+        .info-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .info-content ul li {
+            margin-bottom: 10px; /* Increased margin */
+            display: flex;
+            align-items: flex-start;
+            gap: 12px; /* Larger gap */
+        }
+        .info-content ul li i {
+            color: var(--primary);
+            margin-top: 5px; /* Adjusted */
+            font-size: 1.2rem; /* Larger */
+        }
+        .info-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .info-content a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Premium badge */
+        .premium-badge {
+            position: absolute;
+            top: 25px; /* Adjusted */
+            right: 25px; /* Adjusted */
+            background: linear-gradient(135deg, #f39c12, #d35400);
+            color: white;
+            padding: 6px 18px; /* Increased padding */
+            border-radius: 20px;
+            font-size: 0.95rem; /* Slightly larger */
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+        }
+
+        /* Security badges */
+        .security-level {
+            display: inline-block;
+            padding: 4px 12px; /* Increased padding */
+            border-radius: 12px;
+            font-size: 0.9rem; /* Larger font size */
+            font-weight: 600;
+            margin-left: 12px; /* Larger margin */
+        }
+        .security-high {
+            background-color: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+        .security-medium {
+            background-color: rgba(241, 196, 15, 0.15);
+            color: var(--warning);
+        }
+
+        /* Login activity */
+        .login-activity {
+            margin-top: 25px; /* Increased margin */
+            max-height: 350px; /* Slightly taller */
+            overflow-y: auto;
+            padding-right: 12px; /* For scrollbar */
+        }
+        .login-activity h3 {
+            font-size: 1.3rem; /* Larger */
+            margin-bottom: 15px; /* Increased margin */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+        }
+        .login-activity h3 i {
+            color: var(--primary);
+        }
+        .activity-item {
+            padding: 12px 0; /* Increased padding */
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem; /* Larger font size */
+        }
+        .activity-location {
+            color: var(--gray);
+            font-size: 0.95rem; /* Slightly larger */
+        }
+
+        /* Subscription card */
+        .subscription-card {
+            background: linear-gradient(135deg, #2d8a72, #1a6f5c);
+            color: white;
+            border-radius: var(--corner-radius);
+            padding: 30px; /* Increased padding */
+            margin-top: 25px; /* Increased margin */
+            box-shadow: 0 10px 20px rgba(26, 111, 92, 0.2);
+        }
+        .subscription-card h3 {
+            font-size: 1.6rem; /* Larger */
+            margin-bottom: 18px; /* Increased margin */
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Larger gap */
+        }
+        .subscription-features {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 25px 0; /* Increased margin */
+        }
+        .subscription-features li {
+            margin-bottom: 12px; /* Increased margin */
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Larger gap */
+            font-size: 1.05rem; /* Slightly larger */
+        }
+        .subscription-features li i {
+            color: #f39c12;
+            font-size: 1.2rem; /* Larger */
+        }
+
+        /* Exclusive features section */
+        .exclusive-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; /* Larger gap */
+            margin-top: 25px; /* Increased margin */
+        }
+        .feature-card {
+            background: rgba(26, 111, 92, 0.05);
+            border-radius: var(--corner-radius);
+            padding: 25px; /* Increased padding */
+            border: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+        .feature-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Larger gap */
+            margin-bottom: 12px; /* Increased margin */
+            color: var(--primary-dark);
+            font-size: 1.2rem; /* Larger */
+        }
+        .feature-card p {
+            font-size: 1rem; /* Larger font size */
+            color: var(--dark);
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .fade-in.delay-1 { animation-delay: 0.1s; }
+        .fade-in.delay-2 { animation-delay: 0.2s; }
+        .fade-in.delay-3 { animation-delay: 0.3s; }
+        .fade-in.delay-4 { animation-delay: 0.4s; }
+        .fade-in.delay-5 { animation-delay: 0.5s; }
+        .fade-in.delay-6 { animation-delay: 0.6s; }
+        .fade-in.delay-7 { animation-delay: 0.7s; }
+        .fade-in.delay-8 { animation-delay: 0.8s; }
+        .fade-in.delay-9 { animation-delay: 0.9s; }
+        .fade-in.delay-10 { animation-delay: 1.0s; }
+
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            /* Shrink text on larger screens before mobile menu */
+            .nav-link span {
+                display: none;
+            }
+            .nav-link i {
+                font-size: 1.2rem;
+                margin-right: 0;
+            }
+            .nav-link {
+                padding: 0.8rem;
+                width: 45px;
+                height: 45px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn { display: flex; }
+            .nav-container { /* Target the ul directly with the new class */
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 280px;
+                background: white; flex-direction: column; align-items: stretch; justify-content: flex-start; /* Align items for mobile */
+                transition: var(--transition); box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); 
+                gap: 0.5rem; /* Adjusted gap for mobile */
+                padding: 80px 1rem 2rem; /* Padding for mobile menu */
+            }
+            .nav-container.active { right: 0; }
+
+            .nav-item { /* Full width for mobile menu items */
+                width: 100%;
+            }
+
+            .nav-link { /* Full width and adjusted padding for mobile links */
+                width: 100%;
+                padding: 1rem;
+                border-radius: var(--corner-radius); /* Rounded corners for mobile */
+                justify-content: flex-start; /* Align text to left */
+            }
+            .nav-link span { /* Show text on mobile menu */
+                display: inline;
+            }
+
+            .settings-hero h1 {
+                font-size: 2.8rem; /* Adjusted for tablet */
+            }
+            .settings-section h2 {
+                font-size: 2rem; /* Adjusted for tablet */
+            }
+            .settings-grid {
+                grid-template-columns: 1fr; /* Single column layout on smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px; /* Slightly smaller base font on very small screens */
+            }
+            .settings-hero {
+                padding: 90px 15px 50px; /* Adjusted padding */
+            }
+            .settings-hero h1 {
+                font-size: 2.2rem; /* Adjusted for mobile */
+            }
+            .settings-hero p {
+                font-size: 1.1rem; /* Adjusted for mobile */
+            }
+            .settings-section {
+                padding: 30px; /* Adjusted padding */
+            }
+            .settings-section h2 {
+                font-size: 1.8rem; /* Adjusted for mobile */
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px; /* Adjusted gap */
+                padding: 15px 0; /* Adjusted padding */
+                font-size: 1rem; /* Adjusted font size */
+            }
+            .setting-item label {
+                width: 100%;
+            }
+            .setting-controls {
+                width: 100%;
+                justify-content: flex-end;
+                flex-wrap: wrap; /* Allow controls to wrap */
+                gap: 10px; /* Adjusted gap */
+            }
+            .profile-picture-upload {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .profile-picture {
+                margin-bottom: 10px;
+            }
+            .setting-controls input[type="text"],
+            .setting-controls input[type="number"],
+            .setting-controls input[type="email"],
+            .setting-controls input[type="password"],
+            .setting-controls select {
+                min-width: 100%;
+                font-size: 0.95rem; /* Adjusted font size */
+                padding: 9px 12px; /* Adjusted padding */
+            }
+            .btn-small {
+                padding: 9px 16px; /* Adjusted padding */
+                font-size: 0.95rem; /* Adjusted font size */
+            }
+            .info-content {
+                font-size: 0.95rem; /* Adjusted font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <div class="logo-img">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="logo-text">Green<span>ify</span></div>
+        </div>
+
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-container" id="navMenu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li class="nav-item"><a href="carbon.html" class="nav-link"><i class="fas fa-calculator"></i> <span>Carbon</span></a></li>
+                <li class="nav-item"><a href="education.html" class="nav-link"><i class="fas fa-graduation-cap"></i> <span>Education</span></a></li>
+                <li class="nav-item"><a href="mobility.html" class="nav-link"><i class="fas fa-bicycle"></i> <span>Mobility</span></a></li>
+                <li class="nav-item"><a href="weather.html" class="nav-link"><i class="fas fa-cloud-sun"></i> <span>Weather</span></a></li>
+                <li class="nav-item"><a href="features.html" class="nav-link"><i class="fas fa-sparkles"></i> <span>Features</span></a></li>
+                <li class="nav-item"><a href="chatbot.html" class="nav-link"><i class="fas fa-robot"></i> <span>Chatbot</span></a></li>
+                <li class="nav-item"><a href="announcements.html" class="nav-link"><i class="fas fa-bullhorn"></i> <span>Announcements</span></a></li>
+                <li class="nav-item"><a href="blog.html" class="nav-link"><i class="fas fa-newspaper"></i> <span>Blog</span></a></li>
+                <li class="nav-item"><a href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> <span>FAQ</span></a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> <span>Login</span></a></li>
+                <li class="nav-item"><a href="signup.html" class="nav-link"><i class="fas fa-user-plus"></i> <span>Sign Up</span></a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link active"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="settings-hero">
+            <div class="container fade-in">
+                <h1>Advanced Settings & Preferences</h1>
+                <p>Customize your Greenify experience for a more personalized and impactful sustainability journey.</p>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container settings-grid">
+
+                <div class="settings-section fade-in delay-1">
+                    <h2><i class="fas fa-user-circle"></i> Account & Profile</h2>
+                    <div class="setting-item">
+                        <label for="profile-name"><i class="fas fa-signature"></i> Username</label>
+                        <div class="setting-controls">
+                            <input type="text" id="profile-name" value="EcoWarrior25" placeholder="Your username">
+                            <button class="btn btn-primary btn-small">Save</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="profile-email"><i class="fas fa-envelope"></i> Email Address</label>
+                        <div class="setting-controls">
+                            <input type="email" id="profile-email" value="user@example.com" placeholder="Your email">
+                            <button class="btn btn-primary btn-small">Update</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label><i class="fas fa-image"></i> Profile Picture</label>
+                        <div class="setting-controls profile-picture-upload">
+                            <div class="profile-picture">
+                                <img id="uploaded-pfp" src="" alt="Profile Picture" style="display: none;">
+                                <i class="fas fa-camera" id="pfp-placeholder"></i>
+                            </div>
+                            <div class="upload-btn-wrapper">
+                                <button class="btn btn-outline btn-small">Upload Image</button>
+                                <input type="file" id="pfp-upload" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="change-password"><i class="fas fa-key"></i> Change Password</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Reset Password</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label><i class="fas fa-sign-out-alt"></i> Log Out</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-danger btn-small">Log Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-2">
+                    <h2><i class="fas fa-cog"></i> App Preferences</h2>
+                    <div class="setting-item">
+                        <label for="theme-mode"><i class="fas fa-palette"></i> Theme Mode</label>
+                        <div class="setting-controls">
+                            <select id="theme-mode">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark (Eco-mode)</option>
+                                <option value="system">System Default</option>
+                                <option value="adaptive">Adaptive (Based on time)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="language-select"><i class="fas fa-language"></i> Language</label>
+                        <div class="setting-controls">
+                            <select id="language-select">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ja">Japanese</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="setting-item">
+                        <label for="ai-assistant-voice"><i class="fas fa-robot"></i> AI Assistant Voice</label>
+                        <div class="setting-controls">
+                            <select id="ai-assistant-voice">
+                                <option value="default">Default</option>
+                                <option value="calm">Calm & Serene</option>
+                                <option value="energetic">Energetic & Inspiring</option>
+                                <option value="professional">Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="data-refresh"><i class="fas fa-sync-alt"></i> Data Refresh Frequency</label>
+                        <div class="setting-controls">
+                            <select id="data-refresh">
+                                <option value="realtime">Real-time (recommended)</option>
+                                <option value="hourly">Hourly</option>
+                                <option value="daily">Daily</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="animations"><i class="fas fa-sparkles"></i> Enable Animations</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="animations" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-3">
+                    <h2><i class="fas fa-bell"></i> Notifications & Alerts</h2>
+                    <div class="setting-item">
+                        <label for="push-notifications"><i class="fas fa-mobile-alt"></i> Push Notifications</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="push-notifications" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="email-alerts"><i class="fas fa-at"></i> Email Alerts</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="email-alerts">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="air-quality-alerts"><i class="fas fa-smog"></i> Air Quality Alerts (Local)</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="air-quality-alerts" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="eco-challenge-reminders"><i class="fas fa-trophy"></i> Eco-Challenge Reminders</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="eco-challenge-reminders" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                     <div class="setting-item">
+                        <label for="sustainable-product-recs"><i class="fas fa-leaf"></i> Sustainable Product Recommendations</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="sustainable-product-recs" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="feedback-frequency"><i class="fas fa-comment-dots"></i> Personalized Feedback Frequency</label>
+                        <div class="setting-controls">
+                            <select id="feedback-frequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="never">Never</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-4">
+                    <h2><i class="fas fa-chart-line"></i> Carbon Tracking & Goals</h2>
+                    <div class="setting-item">
+                        <label for="unit-preference"><i class="fas fa-weight-hanging"></i> Carbon Unit Preference</label>
+                        <div class="setting-controls">
+                            <select id="unit-preference">
+                                <option value="kgCO2e">kg CO2e (Kilograms)</option>
+                                <option value="tCO2e">t CO2e (Tonnes)</option>
+                                <option value="lbsCO2e">lbs CO2e (Pounds)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="monthly-carbon-target"><i class="fas fa-bullseye"></i> Monthly Carbon Target</label>
+                        <div class="setting-controls">
+                            <input type="number" id="monthly-carbon-target" value="500" min="0">
+                            <select>
+                                <option>kg CO2e</option>
+                                <option>t CO2e</option>
+                            </select>
+                            <button class="btn btn-primary btn-small">Set Goal</button>
+                        </div>
+                    </div>
+                     <div class="setting-item">
+                        <label for="smart-home-integration"><i class="fas fa-lightbulb"></i> Smart Home Integration</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="smart-home-integration">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="auto-log-commute"><i class="fas fa-car"></i> Auto-log Commute (Connected Vehicle)</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="auto-log-commute">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="carbon-offset-partner"><i class="fas fa-tree"></i> Carbon Offset Partner</label>
+                        <div class="setting-controls">
+                            <select id="carbon-offset-partner">
+                                <option value="none">None</option>
+                                <option value="ecosia">Ecosia Reforestation</option>
+                                <option value="solar-aid">Solar Aid Projects</option>
+                                <option value="ocean-cleanup">Ocean Cleanup Initiative</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="data-sources"><i class="fas fa-cloud-upload-alt"></i> Data Sources & Imports</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Manage Sources</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-5">
+                    <h2><i class="fas fa-shield-alt"></i> Security & Authentication</h2>
+                    <div class="setting-item">
+                        <label for="two-factor"><i class="fas fa-lock"></i> Two-Factor Authentication
+                            <span class="security-level security-high">Enabled</span></label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="two-factor" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="password-strength"><i class="fas fa-key"></i> Password Strength
+                            <span class="security-level security-high">Strong</span></label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Test Strength</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="session-timeout"><i class="fas fa-clock"></i> Session Timeout</label>
+                        <div class="setting-controls">
+                            <select id="session-timeout">
+                                <option value="15">15 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="60">60 minutes</option>
+                                <option value="0">Never (not recommended)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="login-activity">
+                        <h3><i class="fas fa-history"></i> Recent Login Activity</h3>
+                        <div class="activity-item">
+                            <p><strong>Today, 09:45 AM</strong> - Chitungwiza, Mashonaland East Province, Zimbabwe</p>
+                            <div class="activity-details">
+                                <span>Chrome Browser</span>
+                                <span class="activity-location">IP: 192.168.1.101</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <p><strong>Yesterday, 08:30 PM</strong> - Mobile App</p>
+                            <div class="activity-details">
+                                <span>iOS 15.4</span>
+                                <span class="activity-location">IP: 192.168.1.105</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <p><strong>2 days ago, 10:15 AM</strong> - Harare, Zimbabwe</p>
+                            <div class="activity-details">
+                                <span>Firefox Browser</span>
+                                <span class="activity-location">IP: 192.168.1.102</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-6">
+                    <div class="premium-badge">PREMIUM MEMBER</div>
+                    <h2><i class="fas fa-crown"></i> Subscription & Premium Features</h2>
+
+                    <div class="subscription-card">
+                        <h3><i class="fas fa-crown"></i> Greenify Premium</h3>
+                        <p>Active until: <strong>September 15, 2025</strong></p>
+                        <p>Next payment: <strong>$9.99</strong> on September 10, 2025</p>
+
+                        <ul class="subscription-features">
+                            <li><i class="fas fa-check-circle"></i> Advanced carbon analytics</li>
+                            <li><i class="fas fa-check-circle"></i> Personalized sustainability plans</li>
+                            <li><i class="fas fa-check-circle"></i> Premium AI assistant</li>
+                            <li><i class="fas fa-check-circle"></i> Exclusive educational content</li>
+                            <li><i class="fas fa-check-circle"></i> Priority support</li>
+                        </ul>
+
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small" style="background: white; color: var(--primary);">Manage Subscription</button>
+                            <button class="btn btn-danger btn-small">Cancel Subscription</button>
+                        </div>
+                    </div>
+
+                    <div class="exclusive-features-grid">
+                        <div class="feature-card">
+                            <h4><i class="fas fa-robot"></i> AI Sustainability Advisor</h4>
+                            <p>Get personalized recommendations based on your lifestyle and environmental impact.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><i class="fas fa-chart-network"></i> Advanced Analytics Dashboard</h4>
+                            <p>Detailed insights into your carbon footprint with predictive analytics.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><i class="fas fa-leaf"></i> Personalized Eco-Challenges</h4>
+                            <p>Custom challenges tailored to your lifestyle and sustainability goals.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><i class="fas fa-globe-americas"></i> Global Impact Visualization</h4>
+                            <p>See how your actions contribute to global environmental efforts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-7">
+                    <h2><i class="fas fa-database"></i> Data & Privacy</h2>
+                    <div class="setting-item">
+                        <label for="data-sharing"><i class="fas fa-share-alt"></i> Anonymous Data Sharing</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="data-sharing" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="location-tracking"><i class="fas fa-map-marker-alt"></i> Location Tracking (Mobility)</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="location-tracking">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label><i class="fas fa-file-export"></i> Export My Data</label>
+                        <div class="setting-controls">
+                            <select>
+                                <option>CSV Format</option>
+                                <option>JSON Format</option>
+                                <option>PDF Report</option>
+                            </select>
+                            <button class="btn btn-outline btn-small">Export Data</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label><i class="fas fa-user-times"></i> Delete My Account</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-danger btn-small">Delete Account</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="cookie-preferences"><i class="fas fa-cookie-bite"></i> Cookie Preferences</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Manage Cookies</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="ad-personalization"><i class="fas fa-ad"></i> Ad Personalization</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="ad-personalization">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-8">
+                    <h2><i class="fas fa-puzzle-piece"></i> Integrations</h2>
+                    <div class="setting-item">
+                        <label for="google-fit"><i class="fab fa-google"></i> Google Fit</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="google-fit">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="apple-health"><i class="fab fa-apple"></i> Apple Health</label>
+                        <div class="setting-controls">
+                            <label class="switch">
+                                <input type="checkbox" id="apple-health">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="smart-thermostat"><i class="fas fa-temperature-low"></i> Smart Thermostat (e.g., Nest, Ecobee)</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Connect</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="electric-vehicle"><i class="fas fa-car-battery"></i> Electric Vehicle (EV) Data</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Connect</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="smart-meter"><i class="fas fa-tachometer-alt"></i> Smart Energy Meter</label>
+                        <div class="setting-controls">
+                            <button class="btn btn-outline btn-small">Connect</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-9">
+                    <h2><i class="fas fa-info-circle"></i> About Greenify</h2>
+                    <div class="info-content">
+                        <p><strong>Greenify</strong> is your personal companion on the journey towards a more sustainable lifestyle. We empower you with tools and insights to reduce your environmental impact and connect with a global community committed to a greener future.</p>
+                        <p>Our mission is to make sustainable living accessible, actionable, and rewarding for everyone. Through smart tracking, educational content, and community features, we aim to inspire daily eco-conscious choices.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> <strong>Version:</strong> 1.25.0 (Updated June 2025)</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Developed by:</strong> Greenify Labs</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Contact:</strong> <a href="mailto:support@greenify.com">support@greenify.com</a></li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Data Privacy Certified:</strong> ISO 27001 Compliant</li>
+                        </ul>
+                        <p>Learn more about our journey and impact on our <a href="about.html">About Us</a> page.</p>
+                    </div>
+                </div>
+
+                <div class="settings-section fade-in delay-10">
+                    <h2><i class="fas fa-question-circle"></i> Help & Support</h2>
+                    <div class="info-content">
+                        <p>Need assistance or have a question about Greenify? We're here to help!</p>
+                        <ul>
+                            <li><i class="fas fa-book"></i> <strong>FAQs & Knowledge Base:</strong> Find answers to common questions in our extensive knowledge base. <a href="#">Visit Support Center</a></li>
+                            <li><i class="fas fa-robot"></i> <strong>Chat with AI Assistant:</strong> Get instant help from our AI chatbot. <a href="chatbot.html">Open Chatbot</a></li>
+                            <li><i class="fas fa-life-ring"></i> <strong>Contact Support Team:</strong> For personalized assistance, reach out to our dedicated support team. <a href="mailto:support@greenify.com">Email Support</a></li>
+                            <li><i class="fas fa-bug"></i> <strong>Report a Bug:</strong> Help us improve by reporting any issues you encounter. <a href="#">Submit Bug Report</a></li>
+                            <li><i class="fas fa-lightbulb"></i> <strong>Feature Request:</strong> Suggest new features for Greenify. <a href="#">Submit Idea</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', function() {
+            menuBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link (for mobile)
+        const navLinks = document.querySelectorAll('#navMenu .nav-link'); // Corrected selector
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) { // Only apply on mobile/tablet sizes
+                    menuBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'var(--shadow)';
+            }
+        });
+
+        // Profile Picture Upload Preview
+        const pfpUpload = document.getElementById('pfp-upload');
+        const uploadedPfp = document.getElementById('uploaded-pfp');
+        const pfpPlaceholder = document.getElementById('pfp-placeholder');
+
+        pfpUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedPfp.src = e.target.result;
+                    uploadedPfp.style.display = 'block';
+                    pfpPlaceholder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadedPfp.src = '';
+                uploadedPfp.style.display = 'none';
+                pfpPlaceholder.style.display = 'block';
+            }
+        });
+
+        // Settings save functionality (simulated)
+        document.querySelectorAll('.settings-section .btn-small').forEach(button => {
+            button.addEventListener('click', function() {
+                const settingItem = this.closest('.setting-item');
+                // You can add actual save logic here (e.g., send data to a server)
+                console.log(`Setting changed for: ${settingItem.querySelector('label').textContent.trim()}`);
+
+                // Create feedback element
+                const feedback = document.createElement('span');
+                feedback.textContent = "✓ Saved";
+                feedback.style.color = 'var(--success)';
+                feedback.style.fontWeight = '600';
+                feedback.style.marginLeft = '10px';
+                feedback.style.opacity = '0'; // Start invisible for fade-in
+                feedback.style.transition = 'opacity 0.5s ease-out';
+                feedback.classList.add('save-feedback'); // Add a class for easy removal
+
+                // Remove any existing feedback before adding new one
+                const existingFeedback = settingItem.querySelector('.save-feedback');
+                if (existingFeedback) existingFeedback.remove();
+
+                // Add new feedback
+                this.parentElement.appendChild(feedback);
+
+                // Trigger fade-in
+                setTimeout(() => {
+                    feedback.style.opacity = '1';
+                }, 10); // Small delay to ensure transition works
+
+                // Fade out feedback after 2 seconds
+                setTimeout(() => {
+                    feedback.style.opacity = '0';
+                    setTimeout(() => feedback.remove(), 500); // Remove after fade out
+                }, 2000);
+            });
+        });
+
+        // Initialize profile picture (on page load)
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!uploadedPfp.src) { // Check if src is empty or not set
+                uploadedPfp.style.display = 'none';
+                pfpPlaceholder.style.display = 'block';
+            }
+
+            // Apply fade-in animations
+            document.querySelectorAll('.fade-in').forEach(element => {
+                element.style.opacity = '0'; // Ensure elements start hidden for animation
+                element.style.transform = 'translateY(20px)';
+            });
+        });
+
+        // Security level toggle animation
+        const securityToggle = document.getElementById('two-factor');
+        securityToggle.addEventListener('change', function() {
+            const securityLevel = document.querySelector('.security-level');
+            if (this.checked) {
+                securityLevel.textContent = "Enabled";
+                securityLevel.className = "security-level security-high";
+            } else {
+                securityLevel.textContent = "Disabled";
+                securityLevel.className = "security-level security-medium";
+            }
+        });
+
+        // Dynamic update of current location for Login Activity (using the provided context)
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentLocationElement = document.querySelector('.login-activity .activity-item p strong');
+            if (currentLocationElement) {
+                currentLocationElement.textContent = `Today, 09:45 PM - Chitungwiza, Mashonaland East Province, Zimbabwe`;
+            }
+        });
+    </script>
+</body>
+</html>

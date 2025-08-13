@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify | Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES (from Greenify CSS) ===== */
+        :root {
+            --primary: #1a6f5c;
+            --primary-dark: #145a48;
+            --primary-light: #2d8a72;
+            --accent: #f39c12;
+            --accent-dark: #d35400;
+            --light: #f5f7fa;
+            --dark: #1e2a38;
+            --gray: #95a5a6;
+            --light-gray: #e0e7e9;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --corner-radius: 16px;
+            --section-padding: 100px;
+            --card-radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex-grow: 1;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(26, 111, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1.05rem;
+            text-align: center;
+            text-decoration: none;
+            gap: 8px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--light);
+            box-shadow: var(--shadow);
+            font-weight: 700;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(26, 111, 92, 0.1);
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(26, 111, 92, 0.2);
+        }
+        
+        .logo-img i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+        
+        .mobile-menu-btn .bar {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 30px;
+            background: var(--primary);
+            border-radius: 2px;
+            opacity: 1;
+            left: 5px;
+            transform: rotate(0deg);
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-btn .bar:nth-child(1) {
+            top: 10px;
+        }
+        
+        .mobile-menu-btn .bar:nth-child(2) {
+            top: 18px;
+        }
+        
+        .mobile-menu-btn .bar:nth-child(3) {
+            top: 26px;
+        }
+        
+        .mobile-menu-btn.active .bar:nth-child(1) {
+            top: 18px;
+            transform: rotate(135deg);
+        }
+        
+        .mobile-menu-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-btn.active .bar:nth-child(3) {
+            top: 18px;
+            transform: rotate(-135deg);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)), 
+                        url('https://images.unsplash.com/photo-1510511459019-5da7094ed221?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); /* Generic background */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Announcement/Article Card Styles */
+        .announcement-list, .article-list {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column for list */
+            gap: 30px;
+        }
+
+        .announcement-card, .article-card {
+            background-color: white;
+            border-radius: var(--corner-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            transition: var(--transition);
+            border-left: 5px solid var(--primary);
+        }
+
+        .announcement-card:hover, .article-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-left-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .announcement-card h3, .article-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .announcement-card .meta, .article-card .meta {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .announcement-card .meta i, .article-card .meta i {
+            color: var(--primary);
+        }
+        .announcement-card p, .article-card p {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        .announcement-card .btn, .article-card .btn {
+            font-size: 0.95rem;
+            padding: 10px 25px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .mobile-menu-btn { display: block; }
+            nav ul {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 280px;
+                background: white; flex-direction: column; align-items: center; justify-content: center;
+                transition: var(--transition); box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); gap: 2rem; padding: 2rem;
+            }
+            nav ul.active { right: 0; }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 15px 40px;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .article-card {
+                padding: 25px;
+            }
+            .article-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <div class="logo-img">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="logo-text">Green<span>ify</span></div>
+        </div>
+        
+        <nav>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="carbon.html"><i class="fas fa-calculator"></i> Carbon</a></li>
+                <li><a href="education.html"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="mobility.html"><i class="fas fa-bicycle"></i> Mobility</a></li>
+                <li><a href="weather.html"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+                <li><a href="features.html"><i class="fas fa-sparkles"></i> Features</a></li>
+                <li><a href="chatbot.html"><i class="fas fa-robot"></i> Chatbot</a></li>
+                <li><a href="announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                <li><a href="blog.html" class="active"><i class="fas fa-newspaper"></i> Blog</a></li>
+                <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section" style="background-image: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)), url('https://images.unsplash.com/photo-1510511459019-5da7094ed221?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="container">
+                <h1>Greenify Blog: Insights for a Sustainable Future</h1>
+                <p>Explore articles, guides, and news on environmental impact, eco-friendly living, and Greenify app tips.</p>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="article-list">
+                    <div class="article-card">
+                        <h3>Mastering Your Carbon Footprint: A Beginner's Guide with Greenify</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> June 25, 2025
+                            <i class="fas fa-user"></i> By Greenify Team
+                            <i class="fas fa-tag"></i> Carbon Footprint, Guides, App Tips
+                        </div>
+                        <p>Understanding your personal carbon footprint is the first step towards a greener lifestyle. This guide breaks down what it is, how to track it with Greenify, and simple ways to start reducing your impact today.</p>
+                        <a href="https://www.greenlivingblog.org.uk/8-best-ways-to-reduce-your-carbon-footprint/" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                    <div class="article-card">
+                        <h3>Beyond Recycling: The Power of Reduce and Reuse</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> June 18, 2025
+                            <i class="fas fa-user"></i> By Sarah Consci
+                            <i class="fas fa-tag"></i> Zero Waste, Sustainable Living
+                        </div>
+                        <p>Recycling is good, but reducing and reusing are even better! Discover practical tips and creative ideas to minimize waste in your daily life, from refilling bottles to upcycling old items.</p>
+                        <a href="https://www.wildandstone.com/blogs/eco-tips-and-tricks/how-to-be-eco-friendly-on-a-budget" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                    <div class="article-card">
+                        <h3>Green Living on a Budget: Eco-Friendly Swaps That Save You Money</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> June 10, 2025
+                            <i class="fas fa-user"></i> By Alex Green
+                            <i class="fas fa-tag"></i> Eco-Tips, Frugal Living
+                        </div>
+                        <p>Think going green is expensive? Think again! This article shares actionable tips on how to make sustainable choices without breaking the bank, proving that eco-friendliness can be wallet-friendly too.</p>
+                        <a href="https://enrooted.blog/6-tips-for-sustainable-budgeting-eco-friendly-ways-to-manage-your-finances/" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                    <div class="article-card">
+                        <h3>Reducing Food Waste: Simple Steps for a Greener Kitchen</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> June 03, 2025
+                            <i class="fas fa-user"></i> By Foodie Eco
+                            <i class="fas fa-tag"></i> Food Waste, Kitchen, Sustainability
+                        </div>
+                        <p>Learn effective strategies to minimize food waste at home, from smart meal planning to creative ways to use leftovers. Every small change helps the planet and your wallet!</p>
+                        <a href="https://www.nrdc.org/stories/10-ways-reduce-food-waste" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                    <div class="article-card">
+                        <h3>Sustainable Fashion: Dressing for a Better Tomorrow</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> May 27, 2025
+                            <i class="fas fa-user"></i> By Style & Sustain
+                            <i class="fas fa-tag"></i> Fashion, Ethical, Consumerism
+                        </div>
+                        <p>Explore the impact of fast fashion and discover how to build a sustainable wardrobe. Make conscious choices that are good for you and the environment.</p>
+                        <a href="https://www.earhustle411.com/the-environmental-price-of-fast-fashion/" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                    <div class="article-card">
+                        <h3>Eco-Friendly Home Decor: Beautify Your Space Sustainably</h3>
+                        <div class="meta">
+                            <i class="fas fa-calendar-alt"></i> May 20, 2025
+                            <i class="fas fa-user"></i> By Home Green
+                            <i class="fas fa-tag"></i> Home, Decor, Eco-Design
+                        </div>
+                        <p>Transform your living space with these inspiring eco-friendly home decor ideas. Discover sustainable materials, upcycling tips, and ethical brands to create a beautiful and green home.</p>
+                        <a href="https://inhabitat.com/10-eco-friendly-home-decor-ideas-youll-love/" class="btn btn-primary" target="_blank">Read Article</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', function() {
+            menuBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        const navLinks = document.querySelectorAll('#navMenu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'var(--shadow)';
+            }
+        });
+    </script>
+</body>
+</html>
