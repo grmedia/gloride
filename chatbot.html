@@ -6,7 +6,7 @@
     <title>Greenify | Eco Chatbot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== VARIABLES (from Greenify CSS) ===== */
+        /* ===== VARIABLES ===== */
         :root {
             --primary: #1a6f5c;
             --primary-dark: #145a48;
@@ -49,7 +49,7 @@
 
         main {
             flex-grow: 1;
-            padding-top: 80px; /* Adjust for fixed header */
+            padding-top: 80px;
         }
 
         body::before {
@@ -114,7 +114,7 @@
             background: rgba(26, 111, 92, 0.1);
         }
 
-        /* ================== HEADER ================== */
+        /* HEADER */
         header {
             background: white;
             box-shadow: var(--shadow);
@@ -162,7 +162,7 @@
             color: var(--accent);
         }
 
-        /* Navigation Styles */
+        /* Navigation */
         nav {
             display: flex;
             align-items: center;
@@ -208,47 +208,46 @@
             color: white;
         }
 
-        /* Mobile Menu Button - for 3 lines */
+        /* Mobile Menu Button */
         .mobile-menu-btn {
-            display: none; /* Hidden by default, only shown on smaller screens */
+            display: none;
             flex-direction: column;
             justify-content: space-between;
             width: 30px;
-            height: 22px; /* Adjusted for 3 bars */
+            height: 22px;
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 0;
-            z-index: 1002; /* Ensure it's above the nav menu */
-            position: relative; /* For bar positioning */
+            z-index: 1002;
+            position: relative;
         }
 
         .mobile-menu-btn .bar {
             display: block;
             width: 100%;
             height: 3px;
-            background-color: var(--primary); /* Or var(--dark) if you prefer */
+            background-color: var(--primary);
             border-radius: 5px;
             transition: all 0.3s ease-in-out;
         }
 
-        /* Transform to 'X' when active */
         .mobile-menu-btn.active .bar:nth-child(1) {
             transform: translateY(9px) rotate(45deg);
         }
 
         .mobile-menu-btn.active .bar:nth-child(2) {
-            opacity: 0; /* Hide the middle bar */
+            opacity: 0;
         }
 
         .mobile-menu-btn.active .bar:nth-child(3) {
             transform: translateY(-9px) rotate(-45deg);
         }
 
-        /* Chatbot Specific Styles */
+        /* Chatbot Section */
         .chatbot-section {
-            padding: 80px 0 60px; /* Adjust top padding for header, more padding at bottom */
-            min-height: calc(100vh - 80px); /* Fill remaining height */
+            padding: 80px 0 60px;
+            min-height: calc(100vh - 80px);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -258,7 +257,6 @@
             overflow: hidden;
         }
 
-        /* Dynamic background element */
         .chatbot-section::before {
             content: '';
             position: absolute;
@@ -271,7 +269,7 @@
                         radial-gradient(circle at 50% 50%, rgba(45, 138, 114, 0.03) 0%, transparent 30%);
             background-size: 50% 50%, 50% 50%, 100% 100%;
             background-position: 0% 0%, 100% 100%, 0% 0%;
-            animation: backgroundPan 60s linear infinite; /* Slow, subtle animation */
+            animation: backgroundPan 60s linear infinite;
             z-index: -1;
             pointer-events: none;
         }
@@ -284,17 +282,16 @@
             100% { background-position: 0% 0%, 100% 100%, 0% 0%; }
         }
 
-
         .chatbot-container {
             background-color: white;
             border-radius: var(--corner-radius);
             box-shadow: var(--shadow);
             width: 100%;
             max-width: 700px;
-            height: 80vh; /* Set a fixed height for the chat window */
+            height: 80vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Hide overflow for chat messages */
+            overflow: hidden;
             position: relative;
             border: 1px solid var(--light-gray);
         }
@@ -311,7 +308,7 @@
             font-size: 1.2rem;
             font-weight: 600;
             position: relative;
-            justify-content: space-between; /* Space out header elements */
+            justify-content: space-between;
         }
 
         .chat-header i {
@@ -330,7 +327,6 @@
             gap: 10px;
         }
 
-        /* "Alive" indicator */
         .online-status {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.8);
@@ -348,11 +344,10 @@
             display: inline-block;
         }
 
-
         .chat-messages {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* Enable scrolling for messages */
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -403,14 +398,14 @@
             display: flex;
             gap: 10px;
             background-color: white;
-            align-items: center; /* Align items vertically */
-            position: relative; /* For voice recorder positioning */
+            align-items: center;
+            position: relative;
         }
 
         .chat-input input[type="text"] {
             flex-grow: 1;
             padding: 12px 15px;
-            padding-right: 60px; /* Space for voice icon */
+            padding-right: 60px;
             border: 1px solid var(--light-gray);
             border-radius: 50px;
             font-size: 1rem;
@@ -436,7 +431,7 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: var(--shadow);
-            flex-shrink: 0; /* Prevent button from shrinking */
+            flex-shrink: 0;
         }
 
         .chat-input button:hover {
@@ -445,7 +440,6 @@
             box-shadow: var(--shadow-hover);
         }
 
-        /* Suggestions/Quick Actions */
         .chat-suggestions {
             display: flex;
             flex-wrap: wrap;
@@ -465,7 +459,7 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: var(--transition);
-            white-space: nowrap; /* Prevent button text from wrapping */
+            white-space: nowrap;
         }
 
         .chat-suggestions button:hover {
@@ -475,7 +469,6 @@
             transform: translateY(-2px);
         }
 
-        /* New Features */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -484,7 +477,7 @@
             border-radius: 20px;
             border-bottom-left-radius: 5px;
             max-width: 80px;
-            margin-right: auto; /* for bot */
+            margin-right: auto;
         }
 
         .typing-indicator span {
@@ -576,22 +569,41 @@
             gap: 5px;
         }
 
-        /* Voice controls - Integrated into chat input */
+        .mode-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .mode-indicator.local {
+            background-color: rgba(52, 152, 219, 0.2);
+            color: var(--info);
+        }
+
+        .mode-indicator.api {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--success);
+        }
+
         .voice-recorder-btn {
-            background-color: transparent; /* Make it blend with input */
+            background-color: transparent;
             color: var(--gray);
             border: none;
             width: 30px;
             height: 30px;
-            position: absolute; /* Position inside input area */
-            right: 70px; /* Adjust based on send button size */
+            position: absolute;
+            right: 70px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: none;
-            z-index: 10; /* Ensure it's above input */
+            z-index: 10;
         }
 
         .voice-recorder-btn:hover {
@@ -610,14 +622,13 @@
             100% { transform: translateY(-50%) scale(0.95); opacity: 1; }
         }
 
-        /* Clear chat button at the bottom - REPOSITIONED */
         .bottom-controls {
             padding: 10px 20px;
             background-color: white;
             border-top: 1px solid var(--light-gray);
             display: flex;
-            justify-content: flex-end; /* Align to the right */
-            gap: 10px; /* Space for settings button */
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .bottom-controls button {
@@ -639,7 +650,6 @@
             transform: translateY(-2px);
         }
 
-        /* Settings Button & Menu */
         .settings-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -660,7 +670,7 @@
 
         .settings-menu {
             position: absolute;
-            bottom: 60px; /* Above the bottom controls */
+            bottom: 60px;
             right: 20px;
             background: white;
             border-radius: var(--corner-radius);
@@ -713,7 +723,6 @@
             margin: 5px 0;
         }
 
-
         /* Responsive */
         @media (max-width: 1100px) {
             .nav-link span {
@@ -733,7 +742,7 @@
 
         @media (max-width: 992px) {
             .mobile-menu-btn {
-                display: flex; /* Changed from 'block' to 'flex' to make bars align */
+                display: flex;
             }
 
             .nav-container {
@@ -774,7 +783,7 @@
 
         @media (max-width: 768px) {
             .chatbot-container {
-                height: 80vh; /* Make chat window taller on smaller screens */
+                height: 80vh;
                 max-width: 95%;
             }
 
@@ -789,19 +798,19 @@
 
             .chat-input {
                 padding: 10px 15px;
-                flex-direction: row; /* Keep input and buttons in a row */
+                flex-direction: row;
                 gap: 10px;
             }
             .chat-input input[type="text"] {
-                width: auto; /* Adjust width automatically */
+                width: auto;
                 padding: 10px;
-                padding-right: 50px; /* Space for voice icon */
+                padding-right: 50px;
             }
             .chat-input button {
                 width: 40px;
                 height: 40px;
-                padding: 0; /* Reset padding for circular buttons */
-                border-radius: 50%; /* Keep circular */
+                padding: 0;
+                border-radius: 50%;
             }
             .voice-recorder-btn {
                 right: 60px;
@@ -826,7 +835,7 @@
             }
 
             .bottom-controls {
-                justify-content: center; /* Center clear button on small screens */
+                justify-content: center;
             }
             .settings-menu {
                 bottom: 50px;
@@ -907,6 +916,9 @@
                         <span class="online-status">
                             <span class="online-dot"></span> Online
                         </span>
+                        <div id="mode-indicator" class="mode-indicator local">
+                            <i class="fas fa-database"></i> Local Mode
+                        </div>
                     </div>
                     <div class="chat-header-right">
                         <button id="new-chat-btn" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.4);">
@@ -963,6 +975,7 @@
                 <div id="settings-menu" class="settings-menu">
                     <ul>
                         <li><a href="#" id="toggle-voice-output"><i class="fas fa-volume-up"></i> Toggle Voice Output</a></li>
+                        <li><a href="#" id="toggle-api-mode"><i class="fas fa-exchange-alt"></i> Switch to API Mode</a></li>
                         <li><a href="#" id="reset-stats"><i class="fas fa-chart-line"></i> Reset Stats</a></li>
                         <li class="separator"></li>
                         <li><a href="ChatBoardSettings.html" id="chat-settings-link"><i class="fas fa-sliders-h"></i> Chat Board Settings</a></li>
@@ -1023,16 +1036,19 @@
         const settingsBtn = document.getElementById('settings-btn');
         const settingsMenu = document.getElementById('settings-menu');
         const toggleVoiceOutputBtn = document.getElementById('toggle-voice-output');
+        const toggleApiModeBtn = document.getElementById('toggle-api-mode');
         const resetStatsBtn = document.getElementById('reset-stats');
         const chatSettingsLink = document.getElementById('chat-settings-link');
+        const modeIndicator = document.getElementById('mode-indicator');
 
         // User stats
         let ecoPoints = 0;
         let ecoTipsLearned = 0;
         let carbonSaved = 0;
-        let isRecording = false; // Track recording state
+        let isRecording = false;
         let recognition;
-        let voiceOutputEnabled = true; // State for voice output
+        let voiceOutputEnabled = true;
+        let useApiMode = false; // Default to local mode
 
         // Initialize Speech Synthesis
         const synth = window.speechSynthesis;
@@ -1041,7 +1057,7 @@
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
-            recognition.continuous = false; // Only get one result per recognition session
+            recognition.continuous = false;
             recognition.interimResults = false;
             recognition.lang = 'en-US';
 
@@ -1121,7 +1137,7 @@
                     <div class="info-box">
                         <i class="fas fa-lightbulb"></i> Try asking: "How can I reduce my plastic waste?" or "What are some energy-saving tips?"
                     </div>
-                `, 'bot', false); // Do not speak initial message on load
+                `, 'bot', false);
             }
 
             // Load stats
@@ -1131,9 +1147,12 @@
                 ecoPoints = stats.ecoPoints || 0;
                 ecoTipsLearned = stats.ecoTipsLearned || 0;
                 carbonSaved = stats.carbonSaved || 0;
-                voiceOutputEnabled = stats.voiceOutputEnabled !== undefined ? stats.voiceOutputEnabled : true; // Load voice setting
+                voiceOutputEnabled = stats.voiceOutputEnabled !== undefined ? stats.voiceOutputEnabled : true;
+                useApiMode = stats.useApiMode !== undefined ? stats.useApiMode : false;
                 updateStatsDisplay();
                 updateVoiceToggleIcon();
+                updateModeToggleText();
+                updateModeIndicator();
             }
         }
 
@@ -1146,7 +1165,8 @@
                 ecoPoints,
                 ecoTipsLearned,
                 carbonSaved,
-                voiceOutputEnabled
+                voiceOutputEnabled,
+                useApiMode
             };
             localStorage.setItem('greenifyStats', JSON.stringify(stats));
         }
@@ -1203,15 +1223,14 @@
             }
         }
 
-        // Enhanced bot response system
-        function getBotResponse(message) {
+        // Enhanced bot response system for local mode
+        function getLocalBotResponse(message) {
             message = message.toLowerCase().trim();
             let response = "I'm here to help you live sustainably! You can ask me about eco-tips, recycling, carbon footprint reduction, or Greenify features. What would you like to know?";
 
             // Award points for interaction
             ecoPoints += 2;
 
-            // --- Greenify Features & Navigation ---
             if (message.includes("what is greenify") || message.includes("tell me about greenify")) {
                 ecoTipsLearned += 1;
                 response = `
@@ -1227,10 +1246,10 @@
                         <i class="fas fa-sparkles"></i> Let's work together for a greener future!
                     </div>
                 `;
-                ecoPoints += 5; // Extra points for asking about Greenify itself
+                ecoPoints += 5;
             }
             else if (message.includes("carbon footprint calculator") || message.includes("go to carbon footprint calculator") || message.includes("show me carbon footprint calculator")) {
-                ecoPoints += 100; // Reward for using exclusive feature
+                ecoPoints += 100;
                 updateStatsDisplay();
                 response = `
                     Great choice! The **Carbon Footprint Calculator** helps you understand and reduce your environmental impact.
@@ -1238,10 +1257,10 @@
                         <i class="fas fa-calculator"></i> Navigating you to the Carbon Footprint Calculator. You've earned +100 Eco Points!
                     </div>
                 `;
-                setTimeout(() => { window.location.href = 'carbon.html'; }, 1500); // Redirect after a short delay
+                setTimeout(() => { window.location.href = 'carbon.html'; }, 1500);
             }
             else if (message.includes("education hub") || message.includes("go to education hub") || message.includes("show me education hub")) {
-                ecoPoints += 100; // Reward for using exclusive feature
+                ecoPoints += 100;
                 updateStatsDisplay();
                 response = `
                     Fantastic! The **Education Hub** is packed with guides, courses, and articles to expand your knowledge.
@@ -1249,10 +1268,10 @@
                         <i class="fas fa-graduation-cap"></i> Navigating you to the Education Hub. You've earned +100 Eco Points!
                     </div>
                 `;
-                setTimeout(() => { window.location.href = 'education.html'; }, 1500); // Redirect
+                setTimeout(() => { window.location.href = 'education.html'; }, 1500);
             }
             else if (message.includes("forecast") || message.includes("environmental forecast") || message.includes("go to forecast") || message.includes("show me forecast")) {
-                ecoPoints += 100; // Reward for using exclusive feature
+                ecoPoints += 100;
                 updateStatsDisplay();
                 response = `
                     Absolutely! Our **Forecast** feature provides you with important environmental data, including weather and air quality.
@@ -1260,10 +1279,10 @@
                         <i class="fas fa-cloud-sun"></i> Navigating you to the Forecast page. You've earned +100 Eco Points!
                     </div>
                 `;
-                setTimeout(() => { window.location.href = 'weather.html'; }, 1500); // Assuming 'weather.html' is for forecast
+                setTimeout(() => { window.location.href = 'weather.html'; }, 1500);
             }
             else if (message.includes("green mobility planner") || message.includes("go to green mobility planner") || message.includes("show me green mobility planner")) {
-                ecoPoints += 100; // Reward for using exclusive feature
+                ecoPoints += 100;
                 updateStatsDisplay();
                 response = `
                     Excellent! The **Green Mobility Planner** can help you find eco-friendly transportation options.
@@ -1271,9 +1290,9 @@
                         <i class="fas fa-bicycle"></i> Navigating you to the Green Mobility Planner. You've earned +100 Eco Points!
                     </div>
                 `;
-                setTimeout(() => { window.location.href = 'mobility.html'; }, 1500); // Redirect
+                setTimeout(() => { window.location.href = 'mobility.html'; }, 1500);
             }
-            // --- General Chatbot Responses ---
+            // Other responses
             else if (message.includes("hello") || message.includes("hi") || message.includes("hey")) {
                 response = "Hello! 🌱 Ready to make a positive environmental impact today? How can I assist you?";
             }
@@ -1369,7 +1388,7 @@
                         <i class="fas fa-tree"></i> The average American carbon footprint is 16 tons - 4x the global average! Our goal is under 2 tons.
                     </div>
                 `;
-                carbonSaved += 5; // Symbolic value for learning about reduction
+                carbonSaved += 5;
                 ecoPoints += 4;
             }
             else if (message.includes("water") || message.includes("conservation")) {
@@ -1407,7 +1426,6 @@
                 response = "You're welcome! Every sustainable choice makes a difference. What else can I help you with today?";
             }
             else {
-                // Simulate understanding complex queries
                 if (message.includes("plastic alternative")) {
                     response = "Great question! Consider these plastic alternatives: glass containers, stainless steel bottles, beeswax wraps, bamboo utensils, silicone storage bags, and compostable packaging. Each option has different best-use cases.";
                 }
@@ -1420,7 +1438,64 @@
             return response;
         }
 
-        function sendMessage() {
+        // Fetch response from API
+        async function fetchBotResponse(message) {
+            try {
+                const API_URL = 'https://api.giftedtech.co.ke/api/ai/geminiaipro';
+                const API_KEY = 'gifted';
+                const response = await fetch(`${API_URL}?apikey=${API_KEY}&q=${encodeURIComponent(message)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+                
+                // Get the response as text first
+                const responseText = await response.text();
+                
+                // Try to parse as JSON
+                try {
+                    const jsonResponse = JSON.parse(responseText);
+                    if (jsonResponse.response) {
+                        return jsonResponse.response;
+                    }
+                    if (jsonResponse.answer) {
+                        return jsonResponse.answer;
+                    }
+                    if (jsonResponse.message) {
+                        return jsonResponse.message;
+                    }
+                    return JSON.stringify(jsonResponse);
+                } catch (e) {
+                    return responseText;
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                return "Sorry, I'm having trouble connecting to the service. Please try again later.";
+            }
+        }
+
+        // Update mode toggle text
+        function updateModeToggleText() {
+            if (useApiMode) {
+                toggleApiModeBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Switch to Local Mode';
+            } else {
+                toggleApiModeBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Switch to API Mode';
+            }
+        }
+
+        // Update mode indicator
+        function updateModeIndicator() {
+            if (useApiMode) {
+                modeIndicator.className = 'mode-indicator api';
+                modeIndicator.innerHTML = '<i class="fas fa-cloud"></i> API Mode';
+            } else {
+                modeIndicator.className = 'mode-indicator local';
+                modeIndicator.innerHTML = '<i class="fas fa-database"></i> Local Mode';
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
             const messageText = userInput.value.trim();
             if (messageText === "") return;
 
@@ -1428,14 +1503,32 @@
             userInput.value = '';
             userInput.focus();
 
+            // Award points for interaction
+            ecoPoints += 2;
+            updateStatsDisplay();
+
             // Show typing indicator
             const typingIndicator = showTypingIndicator();
 
-            setTimeout(() => {
-                hideTypingIndicator(typingIndicator);
-                const botResponse = getBotResponse(messageText);
-                addMessage(botResponse, 'bot');
-            }, 1200); // Simulate typing delay
+            if (useApiMode) {
+                // API mode
+                try {
+                    const botResponse = await fetchBotResponse(messageText);
+                    hideTypingIndicator(typingIndicator);
+                    addMessage(botResponse, 'bot');
+                } catch (error) {
+                    hideTypingIndicator(typingIndicator);
+                    addMessage("Sorry, I encountered an issue processing your request. Please try again.", 'bot');
+                    console.error('Error getting bot response:', error);
+                }
+            } else {
+                // Local mode
+                setTimeout(() => {
+                    hideTypingIndicator(typingIndicator);
+                    const botResponse = getLocalBotResponse(messageText);
+                    addMessage(botResponse, 'bot');
+                }, 1200);
+            }
         }
 
         // Clear chat functionality
@@ -1447,7 +1540,6 @@
                     <i class="fas fa-recycle"></i> Remember: Your stats and previous conversations are still saved.
                 </div>
             `, 'bot');
-            // Stats are NOT reset here, as per prompt implying they persist
         });
 
         // New chat functionality
@@ -1460,7 +1552,6 @@
                     <i class="fas fa-lightbulb"></i> Try asking about recycling, energy conservation, or eco-friendly products.
                 </div>
             `, 'bot');
-             // Reset stats for a truly "new" chat, if this is the desired behavior
             ecoPoints = 0;
             ecoTipsLearned = 0;
             carbonSaved = 0;
@@ -1469,7 +1560,7 @@
 
         // Toggle Settings Menu
         settingsBtn.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent click from immediately closing it
+            event.stopPropagation();
             settingsMenu.classList.toggle('active');
         });
 
@@ -1491,8 +1582,19 @@
             e.preventDefault();
             voiceOutputEnabled = !voiceOutputEnabled;
             updateVoiceToggleIcon();
-            saveConversation(); // Save the new setting
+            saveConversation();
             alert(`Voice output is now ${voiceOutputEnabled ? 'enabled' : 'disabled'}.`);
+            settingsMenu.classList.remove('active');
+        });
+
+        // Toggle API Mode
+        toggleApiModeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            useApiMode = !useApiMode;
+            updateModeToggleText();
+            updateModeIndicator();
+            saveConversation();
+            alert(`Switched to ${useApiMode ? 'API' : 'Local'} mode.`);
             settingsMenu.classList.remove('active');
         });
 
@@ -1504,19 +1606,16 @@
                 ecoTipsLearned = 0;
                 carbonSaved = 0;
                 updateStatsDisplay();
-                saveConversation(); // Save the reset stats
+                saveConversation();
                 alert('Your stats have been reset!');
                 settingsMenu.classList.remove('active');
             }
         });
 
-        // Chat Board Settings Link - Now directly links to ChatBoardSettings.html
+        // Chat Board Settings Link
         chatSettingsLink.addEventListener('click', function(e) {
-            // No e.preventDefault() needed here, as it's a direct link
             settingsMenu.classList.remove('active');
-            // The browser will handle the navigation because it's a standard anchor tag
         });
-
 
         // Initialize chatbot
         sendBtn.addEventListener('click', sendMessage);
@@ -1534,16 +1633,32 @@
 
                 const typingIndicator = showTypingIndicator();
 
-                setTimeout(() => {
-                    hideTypingIndicator(typingIndicator);
-                    const botResponse = getBotResponse(query);
-                    addMessage(botResponse, 'bot');
-                }, 1200);
+                if (useApiMode) {
+                    fetchBotResponse(query)
+                        .then(response => {
+                            hideTypingIndicator(typingIndicator);
+                            addMessage(response, 'bot');
+                        })
+                        .catch(error => {
+                            hideTypingIndicator(typingIndicator);
+                            addMessage("Sorry, I encountered an issue processing your request. Please try again.", 'bot');
+                        });
+                } else {
+                    setTimeout(() => {
+                        hideTypingIndicator(typingIndicator);
+                        const botResponse = getLocalBotResponse(query);
+                        addMessage(botResponse, 'bot');
+                    }, 1200);
+                }
             }
         });
 
         // Load conversation on startup
-        window.addEventListener('DOMContentLoaded', loadConversation);
+        window.addEventListener('DOMContentLoaded', function() {
+            loadConversation();
+            updateModeToggleText();
+            updateModeIndicator();
+        });
     </script>
 </body>
-</html>
+                        </html>
